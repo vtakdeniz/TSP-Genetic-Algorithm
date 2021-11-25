@@ -7,11 +7,12 @@ from itertools import islice
 ###
 filePath="/Users/veliakdeniz/Desktop/Genetic_Algorithms_TSP/CityCoordinates.tsp"
 population_size=50
-mutation_chance=0.50
 parent_selection_count=20
 elitisim_count=int(parent_selection_count/2)
-crossover_chance=1
 chromosome_length=0
+mutation_chance=0.90
+mutation_rate=0.05
+crossover_chance=1
 ###
 
 class Location:
@@ -137,10 +138,34 @@ def breedMatingPool(mating_pool:list)->list:
 
     return children
 
+def mutate(variable_chromosome:list)->list:
+    chromosome=variable_chromosome.copy()
+    if(random.random()<(1-mutation_chance) or mutation_rate==0):
+        return chromosome
+    for chromosome_index in range(0,len(chromosome)):
+        if(random.random()>(1-mutation_rate)):
+            random_index=random.randint(0,len(chromosome))
+            gene1=chromosome[random_index]
+            gene2=chromosome[chromosome_index]
+            chromosome[chromosome_index]=gene1
+            chromosome[random_index]=gene2
+
+    ###Assertion###
+    assert(chromosome!=variable_chromosome)
+    ###Assertion###
+
+    return chromosome
+
 
 loc_list=initLocations(getLocationCoordinates(filePath))
 population=createPopulation(population_size,loc_list)
-list_of_locations=list(list((p.location_no for p in population[i])) for i in range(len(population)))
-rank=rankPopulation(population)
-pool=createMatingPool(population,rank)
-children=breedMatingPool(pool)
+"""print("\nPopulation random element : \n")
+print(list(loc.info() for loc in population[3]))
+print("\nMutated state of the element : \n")
+print(list(loc.info() for loc in mutate(population[3])))"""
+#if(population[3]==mutate(population[3])):
+ #   print("asd")
+#list_of_locations=list(list((p.location_no for p in population[i])) for i in range(len(population)))
+#rank=rankPopulation(population)
+#pool=createMatingPool(population,rank)
+#children=breedMatingPool(pool)
