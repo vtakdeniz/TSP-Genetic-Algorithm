@@ -1,19 +1,24 @@
-from typing import List
 import numpy as np
 import random
-import pprint
-from itertools import islice
+import json
 
-###
-filePath="/Users/veliakdeniz/Desktop/Genetic_Algorithms_TSP/CityCoordinates.tsp"
-population_size=50
-parent_selection_count=20
+constants_file = open("constants.json")
+constants=json.load(constants_file)["genetic_algorithm_constants"]
+constants_file.close()
+
+#######
+"""Modifiable"""
+filePath=constants["filePath"]
+population_size=constants["population_size"]
+parent_selection_count=constants["parent_selection_count"]
+mutation_chance=constants["mutation_chance"]
+mutation_rate=constants["mutation_rate"]
+crossover_chance=constants["crossover_chance"]
+
+"""Unmodifiable"""
 elitisim_count=int(parent_selection_count/2)
 chromosome_length=0
-mutation_chance=0.90
-mutation_rate=0.05
-crossover_chance=1
-###
+#######
 
 class Location:
     def __init__(self,arr) -> None:
@@ -83,9 +88,9 @@ def createMatingPool(population:list,ranking:list)->list:
         index.append(rank[0])
     for i in index:
         chromosomes.append(population[i])
-    return random.sample(chromosomes,len(chromosomes)) #list((location for location in population[i]) for i in index)
+    return random.sample(chromosomes,len(chromosomes))
 
-#Splits given list to given numebr
+#Splits given list to given number
 def chunks(l:list, n:int)->list:
     n = max(1, n)
     return (l[i:i+n] for i in range(0, len(l), n))
@@ -99,7 +104,6 @@ def breed(chromosome1:list,chromosome2:list)->list:
     subchild1=[]
     subchild2=[]
     subchild3=[]
-
     index1=int(random.random()*len(chromosome1))
     index2=int(random.random()*len(chromosome2))    
     startIndex=min(index1,index2)
@@ -128,13 +132,12 @@ def breedMatingPool(mating_pool:list)->list:
 
     for i in splitted_elemenets:
         ch=breed(i[0],i[1])     
-        children.append(ch)
-
         ###Assertion###
         list_of_breed_location_no=list(l.location_no for l in ch)
         assert(len(list_of_breed_location_no) == len(set(list_of_breed_location_no)))
         assert(len(list_of_breed_location_no) == chromosome_length)
         ###Assertion###
+        children.append(ch)
 
     return children
 
@@ -144,28 +147,43 @@ def mutate(variable_chromosome:list)->list:
         return chromosome
     for chromosome_index in range(0,len(chromosome)):
         if(random.random()>(1-mutation_rate)):
-            random_index=random.randint(0,len(chromosome))
+            random_index=random.randint(0,len(chromosome)-1)
             gene1=chromosome[random_index]
             gene2=chromosome[chromosome_index]
             chromosome[chromosome_index]=gene1
             chromosome[random_index]=gene2
-
     ###Assertion###
-    assert(chromosome!=variable_chromosome)
+    assert(len(chromosome)==len(variable_chromosome) and len(variable_chromosome)==chromosome_length)
     ###Assertion###
-
     return chromosome
 
+def mutateOffsprings(offsprings:list)->list:
+    mutated_offsprings=[]
+    for os in offsprings:
+        mutated_offsprings.append(mutate(os))
+    return mutated_offsprings
+
+def insertToPopulation(population:list,population_ranking:list,mutated_offsprings:list)->list:
+    remove_indices=[]
+    if(elitisim_count>len(mutated_offsprings)):
+        print("Error : Not enough mutated offsprings. Method : insertToPopulation")
+    for ranking_chromosome in population_ranking[-elitisim_count:]:
+        remove_indices.append(ranking_chromosome[0])
+    population = [i for j, i in enumerate(population) if j not in remove_indices]
+    population.extend(mutated_offsprings)
+    mutated_offsprings_ranking=rankPopulation(mutated_offsprings)
+    del population_ranking[-elitisim_count:]
+    population_ranking.extend(mutated_offsprings_ranking)
+    return population,sorted(population_ranking,key=lambda x: x[1],reverse=True)
 
 loc_list=initLocations(getLocationCoordinates(filePath))
 population=createPopulation(population_size,loc_list)
-"""print("\nPopulation random element : \n")
-print(list(loc.info() for loc in population[3]))
-print("\nMutated state of the element : \n")
-print(list(loc.info() for loc in mutate(population[3])))"""
-#if(population[3]==mutate(population[3])):
- #   print("asd")
-#list_of_locations=list(list((p.location_no for p in population[i])) for i in range(len(population)))
-#rank=rankPopulation(population)
-#pool=createMatingPool(population,rank)
-#children=breedMatingPool(pool)
+ranking=rankPopulation(population)
+mating_pool=createMatingPool(population,ranking)
+offsprings=breedMatingPool(mating_pool)
+mutated_offsprings=mutateOffsprings(offsprings)
+print("  \n\n ranking before : \n\n")
+print(ranking)
+print("  \n\n ranking after : \n\n")
+population,ranking=insertToPopulation(population,ranking,mutated_offsprings)
+print(ranking)

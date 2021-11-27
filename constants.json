@@ -1,0 +1,17 @@
+{
+    "genetic_algorithm_constants":
+            {
+            "filePath":"CityCoordinates.tsp",
+            "population_size":50,
+            "parent_selection_count":20,
+            "mutation_chance":0.4,
+            "mutation_rate":0.02,
+            "crossover_chance":0.90
+                
+            },
+
+    "main_constants":
+            {
+            
+            }
+}
