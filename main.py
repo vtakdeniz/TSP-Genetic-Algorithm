@@ -34,14 +34,14 @@ green=terminal_colors.OKGREEN
 blue=terminal_colors.OKBLUE
 
 def printConstants()->None:
-    print(bold+red+"******** Genetic Algorithm Constans **********"+standart)
+    print(bold+red+"******** Genetic Algorithm Constants **********"+standart)
     ga_util.printConstants(bold,cyan,green)
-    print(bold+red+"******** Main Application Constans ***********"+standart)
+    print(bold+red+"******** Main Application Constants ***********"+standart)
     print(bold+cyan+f"Generation Count : {green}{generation_count}"+standart)
     print(bold+cyan+f"Printing Rate : {green}{print_best_ranking_rate}"+standart)
 
 def printInfo(generation_count,population,ranking):
-    os.system('clear')
+    os.system('printf \'\33c\e[3J\'')
     printConstants()
     print("----------------------------------------------")
     print(yellow+bold+"Generation : "+standart+green+str(generation_count))
