@@ -20,6 +20,16 @@ elitisim_count=int(parent_selection_count/2)
 chromosome_length=0
 #######
 
+def printConstants(style,color1,color2):
+    print(style+color1+f"File Path : {color2}{filePath}")
+    print(style+color1+f"Population Size : {color2}{population_size}")
+    print(style+color1+f"Parent Selection Count : {color2}{parent_selection_count}")
+    print(style+color1+f"Mutation Chance : {color2}{mutation_chance}")
+    print(style+color1+f"Mutation Rate : {color2}{mutation_rate}")
+    print(style+color1+f"Crossover Chance : {color2}{crossover_chance}")
+    print(style+color1+f"Elitism Count : {color2}{elitisim_count}")
+    print(style+color1+f"Chromosome Length : {color2}{chromosome_length}")
+
 class Location:
     def __init__(self,arr) -> None:
         self.location_no,self.lat,self.long=arr;
@@ -36,7 +46,7 @@ def calculateDistance(location1:Location,location2:Location)->int:
     return np.sqrt((location1.lat - location2.lat)**2 + (location1.long - location2.long)**2)
 
 #Reads population coordinates from file
-def getLocationCoordinates(filePath:str) -> list:
+def getLocationCoordinates(filePath:str=filePath) -> list:
     with open(filePath,"r") as file:
         location_coordinates=list(list(map(int,x.replace('\n',"").split(" "))) for x in file.readlines()[3:-1])
     global chromosome_length
@@ -55,7 +65,7 @@ def createRandomRoute(location_list:list)->list:
     return random_route
 
 #Creates population from Location objects in given size
-def createPopulation(population_size:int,location_list:list)->list:
+def createPopulation(location_list:list,population_size:int=population_size)->list:
     population=[]
     for i in range (0,population_size):
         population.append(createRandomRoute(location_list))
@@ -73,7 +83,7 @@ def rankRoute(route_array:list)->int:
     fitness_point=1/fitness_point
     return fitness_point
 
-#Ranks routes in a population and returns a list of tuples containint rankings and their corresponding index in the population list
+#Ranks routes in a population and returns a list of tuples containing rankings and their corresponding index in the population list
 def rankPopulation(population:list)->dict:
     ranking={}
     for i in range(len(population)):
@@ -171,19 +181,24 @@ def insertToPopulation(population:list,population_ranking:list,mutated_offspring
         remove_indices.append(ranking_chromosome[0])
     population = [i for j, i in enumerate(population) if j not in remove_indices]
     population.extend(mutated_offsprings)
-    mutated_offsprings_ranking=rankPopulation(mutated_offsprings)
-    del population_ranking[-elitisim_count:]
-    population_ranking.extend(mutated_offsprings_ranking)
-    return population,sorted(population_ranking,key=lambda x: x[1],reverse=True)
+    new_ranking=rankPopulation(population)
+    return population,sorted(new_ranking,key=lambda x: x[1],reverse=True)
 
-loc_list=initLocations(getLocationCoordinates(filePath))
-population=createPopulation(population_size,loc_list)
+
+
+"""
+loc_list=initLocations(getLocationCoordinates())
+population=createPopulation(loc_list,population_size)
 ranking=rankPopulation(population)
+print(ranking)
+print("\n\n\n\n")
 mating_pool=createMatingPool(population,ranking)
 offsprings=breedMatingPool(mating_pool)
 mutated_offsprings=mutateOffsprings(offsprings)
-print("  \n\n ranking before : \n\n")
-print(ranking)
-print("  \n\n ranking after : \n\n")
+#print("  \n\n ranking before : \n\n")
+#print(ranking)
+#print("  \n\n ranking after : \n\n")
 population,ranking=insertToPopulation(population,ranking,mutated_offsprings)
 print(ranking)
+#print(ranking)
+"""
