@@ -12,6 +12,6 @@
     "main_constants":
             {
             "print_best_ranking_rate":10,
-            "generation_count":100
+            "generation_count":50000
             }
 }

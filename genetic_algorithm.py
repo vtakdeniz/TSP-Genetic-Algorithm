@@ -20,15 +20,15 @@ elitisim_count=int(parent_selection_count/2)
 chromosome_length=0
 #######
 
-def printConstants(style,color1,color2):
-    print(style+color1+f"File Path : {color2}{filePath}")
-    print(style+color1+f"Population Size : {color2}{population_size}")
-    print(style+color1+f"Parent Selection Count : {color2}{parent_selection_count}")
-    print(style+color1+f"Mutation Chance : {color2}{mutation_chance}")
-    print(style+color1+f"Mutation Rate : {color2}{mutation_rate}")
-    print(style+color1+f"Crossover Chance : {color2}{crossover_chance}")
-    print(style+color1+f"Elitism Count : {color2}{elitisim_count}")
-    print(style+color1+f"Chromosome Length : {color2}{chromosome_length}")
+def printConstants(style,variable_name_color,variable_color):
+    print(style+variable_name_color+f"File Path : {variable_color}{filePath}")
+    print(style+variable_name_color+f"Population Size : {variable_color}{population_size}")
+    print(style+variable_name_color+f"Parent Selection Count : {variable_color}{parent_selection_count}")
+    print(style+variable_name_color+f"Mutation Chance : {variable_color}{mutation_chance}")
+    print(style+variable_name_color+f"Mutation Rate : {variable_color}{mutation_rate}")
+    print(style+variable_name_color+f"Crossover Chance : {variable_color}{crossover_chance}")
+    print(style+variable_name_color+f"Elitism Count : {variable_color}{elitisim_count}")
+    print(style+variable_name_color+f"Chromosome Length : {variable_color}{chromosome_length}")
 
 class Location:
     def __init__(self,arr) -> None:

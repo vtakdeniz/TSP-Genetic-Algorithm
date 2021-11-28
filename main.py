@@ -24,6 +24,7 @@ class terminal_colors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+purple=terminal_colors.HEADER
 bold=terminal_colors.BOLD
 red=terminal_colors.RED
 yellow=terminal_colors.YELLOW
@@ -74,23 +75,6 @@ def init()->None:
         print(f"{green} -> {standart}",end="")
         print(loc,end="")
     print()
+    
 init()
 
-"""
-    print("Best route ranking : "+str(ranking[0][1]))
-    print("Best route rank calculated : "+str(ga_util.rankRoute(population[ranking[0][0]])))
-    print("Best Distance : "+str(1/(ga_util.rankRoute(population[ranking[0][0]]))))
-    print("\n\n************************************\n\n")
-"""
-
-"""     print("Generation : "+str(i))  if(i%print_best_ranking_rate==0) else None
-        print("Best route ranking : "+str(ranking[0]))  if(i%print_best_ranking_rate==0) else None
-        print("Best Distance : "+str(1/(ga_util.rankRoute(population[ranking[0][0]])))) if(i%print_best_ranking_rate==0) else None
-
-    print("Finished. Results ; ")
-    print(ranking[0][0])    
-    print("Best Rank : "+str(ga_util.rankRoute(population[ranking[0][0]])))
-    print("Best Distance : "+str(1/(ga_util.rankRoute(population[ranking[0][0]]))))
-    print("Coordinates ; \n")
-    print(list((x.lat,x.long) for x in population[ranking[0][0]]))
-    """
