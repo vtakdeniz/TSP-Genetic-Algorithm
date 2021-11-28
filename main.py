@@ -76,5 +76,4 @@ def init()->None:
         print(loc,end="")
     print()
     
-init()
 
