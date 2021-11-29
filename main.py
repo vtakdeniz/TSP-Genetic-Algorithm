@@ -63,7 +63,7 @@ def setBestRoute(chromosome:list):
     global best_route
     best_route=chromosome
 
-def loop():
+def loop()->None:
     printConstants()
     global population
     global ranking
@@ -102,8 +102,14 @@ def animate(event)->list:
     edges.extend(edges_list)
     G.add_edges_from(edges)
     fixed_nodes = fixed_positions.keys()
+    color_map=[]
+    for node in G:
+        if node == best_route[0].location_no:
+            color_map.append('red')
+        else:
+            color_map.append('blue')
     pos = nx.spring_layout(G,pos=fixed_positions, fixed = fixed_nodes)
-    nx.draw_networkx(G,pos, with_labels=True)
+    nx.draw_networkx(G,pos, with_labels=True,node_color=color_map)
 
 
 
@@ -111,7 +117,6 @@ loc_list=ga_util.initLocations(ga_util.getLocationCoordinates())
 population=ga_util.createPopulation(loc_list)
 ranking=ga_util.rankPopulation(population)
 def init()->None:
-    #################
     global fixed_positions
     global best_route
     best_route=population[ranking[0][0]]
