@@ -183,22 +183,3 @@ def insertToPopulation(population:list,population_ranking:list,mutated_offspring
     population.extend(mutated_offsprings)
     new_ranking=rankPopulation(population)
     return population,sorted(new_ranking,key=lambda x: x[1],reverse=True)
-
-
-
-"""
-loc_list=initLocations(getLocationCoordinates())
-population=createPopulation(loc_list,population_size)
-ranking=rankPopulation(population)
-print(ranking)
-print("\n\n\n\n")
-mating_pool=createMatingPool(population,ranking)
-offsprings=breedMatingPool(mating_pool)
-mutated_offsprings=mutateOffsprings(offsprings)
-#print("  \n\n ranking before : \n\n")
-#print(ranking)
-#print("  \n\n ranking after : \n\n")
-population,ranking=insertToPopulation(population,ranking,mutated_offsprings)
-print(ranking)
-#print(ranking)
-"""
