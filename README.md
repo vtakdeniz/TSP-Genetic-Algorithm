@@ -1,1 +1,1 @@
-![](git-ga.gif.gif)
+![](git-ga.gif)
