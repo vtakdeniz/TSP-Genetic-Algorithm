@@ -12,7 +12,7 @@ Install python dependencies after changing the working directory to project fold
 pip install -r requirements.txt
 ```
 
-After changing the constants from constants.json file as you wish, start the project with the command ;
+After changing the constants from the constants.json file as you wish, start the project with the command ;
 
 ```
 python3 cli.py
