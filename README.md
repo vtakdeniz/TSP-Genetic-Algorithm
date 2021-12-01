@@ -6,13 +6,13 @@ This project utilizes fundamentals of genetic algorithm to approximately solve t
 
 # How to install and use ? 
 
-Install python dependencies after changing directory to project folder with the command ;
+Install python dependencies after changing the working directory to project folder with the command ;
 
 ```
 pip install -r requirements.txt
 ```
 
-Then, after changing the constants from constants.json file as you wish, start the project with the command ;
+After changing the constants from constants.json file as you wish, start the project with the command ;
 
 ```
 python3 cli.py
