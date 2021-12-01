@@ -5,6 +5,7 @@ import os
 from matplotlib import pyplot as plt, animation
 import networkx as nx
 import threading
+import time
 
 constants_file = open("constants.json")
 constants=json.load(constants_file)["main_constants"]
@@ -13,9 +14,11 @@ constants_file.close()
 #######
 print_best_ranking_rate=constants["print_best_ranking_rate"]
 generation_count=constants["generation_count"]
+figure_size=constants["figure_size"]
+drawing_rate=constants["drawing_rate"]
 #######
 
-plt.rcParams["figure.figsize"] = [10.50, 8.50]
+plt.rcParams["figure.figsize"] = figure_size
 plt.rcParams["figure.autolayout"] = True
 fig = plt.figure()
 G = nx.DiGraph()
@@ -23,7 +26,7 @@ best_route=[]
 fixed_positions={}
 
 class terminal_styles:
-    PURPLE = '\033[95m'
+    PURPLE = '\033[ 95m'
     BLUE = '\033[94m'
     CYAN = '\033[96m'
     GREEN = '\033[92m'
@@ -64,6 +67,7 @@ def setBestRoute(chromosome:list):
     best_route=chromosome
 
 def loop()->None:
+    time.sleep(1)
     printConstants()
     global population
     global ranking
@@ -109,7 +113,7 @@ def animate(event)->list:
         else:
             color_map.append('blue')
     pos = nx.spring_layout(G,pos=fixed_positions, fixed = fixed_nodes)
-    nx.draw_networkx(G,pos, with_labels=True,node_color=color_map)
+    nx.draw_networkx(G,pos, with_labels=True,node_color=color_map,font_color="yellow")
 
 
 
@@ -123,5 +127,5 @@ def init()->None:
     fixed_positions={x[0]:(x[1],x[2]) for x in ga_util.getLocationCoordinates()}
     loop_thread=threading.Thread(target=loop)
     loop_thread.start()
-    ani = animation.FuncAnimation(fig, animate, frames=6, interval=1000,repeat=True)
+    ani = animation.FuncAnimation(fig, animate, frames=6, interval=drawing_rate,repeat=True)
     plt.show()

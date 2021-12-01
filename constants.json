@@ -4,14 +4,16 @@
             "filePath":"CityCoordinates.tsp",
             "population_size":50,
             "parent_selection_count":20,
-            "mutation_chance":0.4,
-            "mutation_rate":0.01,
+            "mutation_chance":0.35,
+            "mutation_rate":0.08,
             "crossover_chance":0.95
             },
 
     "main_constants":
             {
-            "print_best_ranking_rate":100,
-            "generation_count":10000
+            "print_best_ranking_rate":50,
+            "generation_count":100000,
+            "drawing_rate":80,
+            "figure_size":[10.50, 8.50]
             }
 }
