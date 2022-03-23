@@ -18,4 +18,3 @@ After changing the constants from the constants.json file as you wish, start the
 python3 cli.py
 ```
 
-
